@@ -1,0 +1,69 @@
+
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+jobs:
+  build_wheel:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.11"]
+
+    steps:
+    - name: Checkout github repo
+      uses: actions/checkout@v4
+    - name: Checkout submodules
+      run: git submodule update --init --recursive
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: 'x64'
+    - name: Create Wheel
+      run: |
+          pip install build
+          python -m build
+          mkdir wheelhouse
+          cp dist/icrp107_* wheelhouse/
+          ls wheelhouse
+          rm -r dist
+          mv wheelhouse dist
+    - name: Upload wheels
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist-${{ matrix.os }}-${{ matrix.python-version }}
+        path: dist/
+
+  publish_wheel:
+    runs-on: ubuntu-latest
+    needs: [build_wheel]
+    steps:
+    - name: Checkout github repo
+      uses: actions/checkout@v4
+    - name: Checkout submodules
+      run: git submodule update --init --recursive
+    - uses: actions/download-artifact@v4
+      with:
+        pattern: dist-*
+        merge-multiple: true
+        path: dist/
+    - name: Publish to PyPI
+      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/')
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI }}
+        skip_existing: true

@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=67"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.dynamic]
+readme = { file = "README.md", content-type = "text/markdown"}
+
+[tool.setuptools.packages]
+find = { }  # Scanning implicit namespaces is active by default
+
+[project]
+name = "icrp107-database"
+version = "0.0.1"
+dynamic = ["readme"]
+authors = [{ name = "Opengate collaboration", email = "david.sarrut@creatis.insa-lyon.fr" }]
+description = "Data for radionuclide spectra"
+license = { file = "LICENSE.md" }
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+
+]
+requires-python = ">=3.9"
+
