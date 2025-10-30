@@ -14,7 +14,7 @@ icrp107_emissions = [
     "auger",
     "IE",
     "alpha recoil",
-    "anihilation",
+    "annihilation",
     "fission",
     "betaD",
     "b-spectra",  # beta spectras, both beta+ and beta-
@@ -34,7 +34,7 @@ def get_icrp107_spectrum(rad_name: str, spectrum_type=DEFAULT_SPECTRUM_TYPE):
 
     spectrum_type : str
         The type of spectrum to retrieve. Must be one of "gamma", "beta-", "beta+", "alpha", "X",
-        "neutron", "auger", "IE", "alpha recoil", "anihilation", "fission", "betaD", "b-spectra"
+        "neutron", "auger", "IE", "alpha recoil", "annihilation", "fission", "betaD", "b-spectra"
 
     Returns
     -------
