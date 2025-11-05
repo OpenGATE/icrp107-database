@@ -14,7 +14,7 @@ find = { }  # Scanning implicit namespaces is active by default
 
 [project]
 name = "icrp107-database"
-version = "0.0.2"
+version = "0.0.3"
 dynamic = ["readme"]
 authors = [{ name = "Opengate collaboration", email = "david.sarrut@creatis.insa-lyon.fr" }]
 description = "Data for radionuclide spectra"
